@@ -1,0 +1,19 @@
+name: Build and Test Spring Petclinic
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build and run tests with Maven
+        run: ./mvnw package
+
+      - name: Run target
+        run: java -jar target/*.jar
+
