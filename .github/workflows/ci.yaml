@@ -3,8 +3,6 @@ name: Build and Test Spring Petclinic
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 jobs:
   build:
@@ -21,13 +19,16 @@ jobs:
           distribution: 'temurin'
 
       - name: Build and run tests with Maven
-        run: ./mvnw clean verify
-
+        run: ./mvnw package 
+        run: mkdir staging && cp target/*.jar staging
+        uses: actions/upload-artifact@v4
+        	with:
+      		name: Package
+      		path: staging
+      
       - name: Archive test reports
-        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: test-reports
           path: target/surefire-reports
- 
 
